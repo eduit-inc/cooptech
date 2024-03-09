@@ -283,3 +283,170 @@ S3が独立したサービスなのに対して、EBSはEC2に割り当てられ
 ファイルシステムの色々。
 
 個人的に興味があるのは`FSx for Windows File Server`。これでActive Directoryの機能を利用できる。
+
+## データベースサービス
+
+### Amazon Relational Database Service (RDS)
+
+言わずもがな、DBサービス
+
+## データ処理・分析サービス
+
+### 概要
+
+データ処理・連携を支援するサービス群。
+
+アプリケーションで実装することなく、AWSと切り分けることができる。
+
+### メッセージキューイング処理サービス
+
+#### SQS (Amazon Simple Queue Service)
+
+キューイングサービス。バッチのように、非同期・並列な分散処理が可能。
+
+### 通知処理サービス
+
+#### SES (Amazon Simple Email Service)
+
+Eメール送信サービス
+
+#### SNS (Amazon Simple Notification Service)
+
+さまざまなプロトコルでサービスにデータを配信する
+
+- SMS
+- スマホへのプッシュ通知
+- メール送信
+- SQS連携
+- Lambda連携
+- CloudWatch連携
+
+SESはメール送信特化。
+
+SNSはプッシュ型。自発的に様々なアクションを起こす場合に利用する。
+
+SQSはプル型と呼ばれる。受動的に外部からのアクションに対して起こされる処理を指す。
+
+SNSのようにメッセージを配信するする形式(Publish, Subscribe)をPub/Subという。
+
+### バイプライン処理
+
+DBからのデータの抽出・変換・保存 (ETL: Extract Transform Load) や、データの順次処理が求められる。
+
+**AWS Data Pipeline** で、ETLなどのデータの順次処理を行うことができる。
+
+プログラムで同期処理を指せるのではなく、Data Pipelineで同期処理を行わせる。
+
+例えば、
+
+1. DBからデータエクスポート
+2. エクスポートしたデータを変換、S3に保存
+3. エクスポートしたデータをテーブルから削除
+
+を一つのトランザクションとして扱われる。**AWS Glue**や**AWS Step Functions**もPipeline同様、パイプライン制御できるサービス。
+
+多すぎやしないか？
+
+ちなみにPipelineは2023/2/28に廃止した。らしい。
+
+### ストリーミング処理サービス
+
+**Amazon Kinesis**を利用する。IoTなどのデバイスからデータをリアルタイムに受信して分析する場合に利用。
+
+Kinesisは主に次の3つのサービスから構成される
+
+- Kinesis Data Streams: ストリーミングデータの収集
+- Kinesis Data Firehose: ストリーミングデータの保存
+- Kinesis Data Analytics: ストリーミングデータの分析
+
+### イベント連携処理サービス
+
+**Amazon EventBridge**で、AWSの各種サービスや外部のSaaSのイベントソースで発生するイベントを起動するハブのような存在。
+
+### その他のデータ連携・分析サービス
+
+紹介だけ
+
+#### Amazon AppFlow
+
+Slack、SalesforceやSAPと連携してデータをS3などに転送するサービス
+
+#### AWS Lake Formation
+
+データレイクというだけあってのこの名前なのかな。
+
+データ処理・分析に必要なデータの蓄積場所。
+
+#### Amazon EMR
+
+ペタバイトレベルのデータを処理、分析するスケーラブルな処理サービス
+
+#### Amazon OpenSearch Service (Amazon ElasticSearch Service)
+
+オープンソースのElasticSearchをベースとしたログ分析・検索サービス。
+
+なんかよく聞く。
+
+#### Amazon QuickSight
+
+分析されたデータを可視化するためのダッシュボード
+
+#### AWS Data Exchange
+
+世界中に存在するサードパーティデータをAWSがサブスク方式で提供するサービス
+
+…使う？？
+
+### AI、機械学習サービス紹介
+
+#### Amazon Comprehend
+
+機械学習で、テキストから関係性を発見するための自然言語処理(NLP)サービス
+
+#### Amazon Forecast
+
+機械学習(ML)をベースにした予測サービス
+
+#### Amazon Fraud Detector
+
+機械学習でオンライン不正行為の特定・発見、不正検出モデルを構築するサービス
+
+#### Amazon Kendra
+
+機械学習を利用したインテリジェント検索サービス
+
+インテリジェントって何
+
+#### Amazon Lex
+
+チャットボットなどの会話形インターフェイスを備えたAI
+
+#### Amazon Polly
+
+文章をリアルな音声に変換するサービス
+
+#### Amazon Rekognition
+
+画像と動画から情報などを抽出
+
+#### Amazon SageMaker
+
+機械学習モデルの統合的な開発プラットフォーム
+
+具体的にはわからん
+
+#### Amazon Textract
+
+スキャンしたドキュメントからテキストや手が気持ち、データを自動的に抽出するMLサービス
+
+すげえ。
+
+#### Amazon Transcribe
+
+音声をテキストに自動変換するサービス
+
+#### Amazon Translate 
+
+カスタマイズ可能な言語翻訳サービス
+
+## 構成管理サービス・開発サービス
